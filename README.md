@@ -3,14 +3,38 @@
 
 # Instalation
 ## Visual Studio Code
+Visual Studio Code is a lightweight free to use platform for software development. It supports Java and C++ development and with the supplied plugins you can develop FRC programs. Starting with the 2019 FRC season, VS Code will be the Integrated Development Environment that is supported. To get VS Code for your platform navigate to: https://code.visualstudio.com/download and select the version that matches your development OS. In this example, we'll install the Mac version of VS Code.
+
+
+Choose the version for your hardware and install it by following the on-screen instructions which may vary slightly by platform.
+
+Note: VS Code version 1.25 or later is required to work properly with the WPILib plugin.
+
+Windows
+For Windows, run the downloaded executable and follow the on-screen directions to complete the installation.
+
+
 ### Extentions
-#### FRC Tools
+#### WPILib 
+Download the WPILib VS Code extension
+For the Alpha release, the WPILib VS Code extension is not part of the VS Code marketplace and it has to be downloaded and installed manually.
+
+The download can be found at: https://github.com/wpilibsuite/vscode-wpilib/releases/tag/v2019.0.0-alpha-4
+
+Click on the latest alpha file and you will be prompted to download the .vsix file.
+
+Note: The Alpha files are intended for the public alpha and use the 2018 libraries and roboRIO image. The Beta files are intended for the closed Beta and require the 2019 roboRIO image.
+
+Install the WPILib VSstat Code extension
+To install the WPILib extension (1) click on the ... button above the extensions search bar. (2) Select "Install from VSIX...".
+
+Select the vsix file the was downloaded in the previous step and click "Install" to install the extension. After the installation finishes,  click "Reload Now" to restart VS Code.
+
 #### TSLint
 #### JUnit
 #### HTML/CSS Tools
 
 ## Librarys
-### WPILib
 ### CTRE Phoenix
 ### REV Tools
 
