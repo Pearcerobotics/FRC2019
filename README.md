@@ -41,6 +41,7 @@ Select the vsix file the was downloaded in the previous step and click "Install"
 ## Addon Tools
 ### GRIP
 ### FRC Dashboard
+Follow the instructions on the FRC Dashboard Github Page for instalation https://github.com/FRCDashboard/FRCDashboard
 ### Spark Tools
 
 # Building Code
