@@ -21,9 +21,12 @@ public class Arm
 	double minTemp, runningTemp, maxTemp, currentRange; //min and max motor tempatures
 	double minSpeed, runningSpeed, maxSpeed, speedRange;  // min and max angular speeds
 
-	boolean errorSpeed, errorTemp, errorCurrent, errorMinSoftLimit, errorMaxSoftLimit, errorMinHardLimit, errorMaxHardLimit = false;
-	boolean warningSpeed, warningTemp, warningCurrent, warningMinSoftLimit, warningMaxSoftLimit, warningMinHardLimit, warningMaxHardLimit = false;
-
+	//all possible detectable and recoverable errors with the speed controller
+	boolean errorSpeed, errorTemp, errorCurrent, errorMinSoftLimit, errorMaxSoftLimit, errorMinHardLimit, errorMaxHardLimit;
+	this.errorSpeed = this.errorTemp = this.errorCurrent = this.errorMinSoftLimit = this.errorMaxSoftLimit = this.errorMinHardLimit = this.errorMaxHardLimit = false;
+	// all possible detectable warnings with the speed conteollers
+	boolean warningSpeed, warningTemp, warningCurrent, warningMinSoftLimit, warningMaxSoftLimit, warningMinHardLimit, warningMaxHardLimit;
+	this.warningSpeed = this.warningTem p= this.warningCurrent = this.warningMinSoftLimit = this.warningMaxSoftLimit = this.warningMinHardLimit = this.warningMaxHardLimit = false;
 
 	enum FeedbackDevice{
 		CTRE_MagEncoder_Absolute;
@@ -33,7 +36,8 @@ public class Arm
 	
 	public Arm()
 	{
-		arm = new TalonSRX(32);
+		this.canID = 32;
+		this.arm = new TalonSRX(this.canID);
 		this.config_kD=1;
 		this.config_kI=.0002;
 		this.config_kP=7;
@@ -41,21 +45,24 @@ public class Arm
 		this.maxSoftLimit=900;
 		this.FeedbackDevice=CTRE_MagEncoder_Absolute;
 		this.softLimitRange = .10;
-		this.currentSetPos = -150
-		arm.setInverted(false);
-		arm.setSensorPhase(true);
+		this.currentSetPos = -150;
 
-		arm.configForwardSoftLimitThreshold(this.maxSoftLimit, 10);
-		arm.configForwardSoftLimitEnable(true, 10);
+		this.homePos = this.currentSetPos;
+		
+		this.arm.setInverted(false);
+		this.arm.setSensorPhase(true);
 
-		arm.configReverseSoftLimitThreshold(this.minSoftLimit, 10);
-		arm.configReverseSoftLimitEnable(true, 10);
+		this.arm.configForwardSoftLimitThreshold(this.maxSoftLimit, 10);
+		this.arm.configForwardSoftLimitEnable(true, 10);
 
-		arm.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 0, 10);
+		this.arm.configReverseSoftLimitThreshold(this.minSoftLimit, 10);
+		this.arm.configReverseSoftLimitEnable(true, 10);
 
-		arm.config_kP(0, this.config_kP, 10);
-		arm.config_kI(0, this.config_kI, 10);
-		arm.config_kD(0, this.config_kD, 10);
+		this.arm.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 0, 10);
+
+		this.arm.config_kP(0, this.config_kP, 10);
+		this.arm.config_kI(0, this.config_kI, 10);
+		this.arm.config_kD(0, this.config_kD, 10);
 	}
 
 	
@@ -65,30 +72,32 @@ public class Arm
 	}
 	private void limitController()
 	{
+		//ToDo: add a method for limiting the speed controller
+		//? maybe voltage limit it while its in the error state?
 
 	}
 
 	public void setPos(int pos)
 	{
-		currentSetPos = pos;
+		this.currentSetPos = pos;
 	}
 
 	public boolean control(double input)
 	{
-		if (failed == true || arm.getSelectedSensorPosition(0) < this.minSoftLimit-this.minSoftLimit*this.softLimitRange || arm.getSelectedSensorPosition(0) > this.maxSoftLimit+this.errorMaxSoftLimit*this.softLimitRange)
+		if (this.failed == true || this.arm.getSelectedSensorPosition(0) < this.minSoftLimit-this.minSoftLimit*this.softLimitRange || this.arm.getSelectedSensorPosition(0) > this.maxSoftLimit+this.errorMaxSoftLimit*this.softLimitRange)
 		{
-			arm.configForwardSoftLimitEnable(false, 10);
-			arm.configReverseSoftLimitEnable(false, 10);
-			arm.set(ControlMode.PercentOutput, input);
-			failed = true;
-			arm.setNeutralMode(NeutralMode.Brake);
+			this.arm.configForwardSoftLimitEnable(false, 10);
+			this.arm.configReverseSoftLimitEnable(false, 10);
+			this.arm.set(ControlMode.PercentOutput, input);
+			this.failed = true;
+			this.arm.setNeutralMode(NeutralMode.Brake);
 			return true;
 		} else
 		{
-			arm.configForwardSoftLimitEnable(true, 10);
-			arm.configReverseSoftLimitEnable(true, 10);
-			arm.set(ControlMode.Position, currentSetPos);
-			arm.setNeutralMode(NeutralMode.Coast);
+			this.arm.configForwardSoftLimitEnable(true, 10);
+			this.arm.configReverseSoftLimitEnable(true, 10);
+			this.arm.set(ControlMode.Position, this.currentSetPos);
+			this.arm.setNeutralMode(NeutralMode.Coast);
 
 			return false;
 		}
@@ -96,14 +105,14 @@ public class Arm
 
 	public int getPos()
 	{
-		return currentSetPos;
+		return this.currentSetPos;
 	}
 	
 	public void home()
 	{
-		arm.setSelectedSensorPosition(-150, 0, 10);
-		failed = false;
-		currentSetPos = -150;
+		this.arm.setSelectedSensorPosition(this.homePos, 0, 10);
+		this.failed = false;
+		this.currentSetPos = this.homePos;
 	}
 
 }
