@@ -2,6 +2,10 @@
 1745s 2019 Robot Code.
 
 # Installation
+
+## Java 8 JDK
+Navigate to https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html accept the license agreement and install the latest Java SE Development Kit for your platform
+
 ## Visual Studio Code
 Visual Studio Code is a lightweight free to use platform for software development. It supports Java and C++ development and with the supplied plugins you can develop FRC programs. Starting with the 2019 FRC season, VS Code will be the Integrated Development Environment that is supported. To get VS Code for your platform navigate to: https://code.visualstudio.com/download and select the version that matches your development OS. In this example, we'll install the Mac version of VS Code.
 
