@@ -1,0 +1,95 @@
+body,
+header,
+button,
+input[type="text"],
+input[type="number"],
+.select-container,
+select {
+    color: #18b5ee;
+    animation: fade 5s infinite linear;
+}
+svg * {
+    stroke: #18b5ee;
+    animation: fadeStroke 5s infinite linear;
+}
+text, aside svg *  {
+    fill: #18b5ee;
+    stroke: none;
+    animation: fadeFill 5s infinite linear;
+}
+.active #bulb * {
+    fill: yellow;
+    animation: none;
+}
+.active #auto-aim * {
+    fill: red;
+    animation: none;
+}
+@keyframes fade {
+    0% {
+        color: #e81e1e;
+        border-color: #e81e1e;
+    }
+    20% {
+        color: #ffa733;
+        border-color: #ffa733;
+    }
+    40% {
+        color: #fbff37;
+        border-color: #fbff37;
+    }
+    60% {
+        color: #49f130;
+        border-color: #49f130;
+    }
+    80% {
+        color: #18b5ee;
+        border-color: #18b5ee;
+    }
+    100% {
+        color: #e81e1e;
+        border-color: #e81e1e;
+    }
+}
+@keyframes fadeStroke {
+    0% { stroke: #e81e1e; }
+    20% { stroke: #ffa733; }
+    40% { stroke: #fbff37; }
+    60% { stroke: #49f130; }
+    80% { stroke: #18b5ee; }
+    100% { stroke: #e81e1e; }
+}
+@keyframes fadeFill {
+    0% { fill: #e81e1e; }
+    20% { fill: #ffa733; }
+    40% { fill: #fbff37; }
+    60% { fill: #49f130; }
+    80% { fill: #18b5ee; }
+    100% { fill: #e81e1e; }
+}
+
+.arrow-up {
+    border-bottom-color: #18b5ee;
+    animation: fadeBorderBottom 5s infinite linear;
+}
+.arrow-down {
+    border-top-color: #18b5ee;
+    animation: fadeBorderTop 5s infinite linear;
+}
+
+@keyframes fadeBorderTop {
+    0% { border-top-color: #e81e1e; }
+    20% { border-top-color: #ffa733; }
+    40% { border-top-color: #fbff37; }
+    60% { border-top-color: #49f130; }
+    80% { border-top-color: #18b5ee; }
+    100% { border-top-color: #e81e1e; }
+}
+@keyframes fadeBorderBottom {
+    0% { border-bottom-color: #e81e1e; }
+    20% { border-bottom-color: #ffa733; }
+    40% { border-bottom-color: #fbff37; }
+    60% { border-bottom-color: #49f130; }
+    80% { border-bottom-color: #18b5ee; }
+    100% { border-bottom-color: #e81e1e; }
+}

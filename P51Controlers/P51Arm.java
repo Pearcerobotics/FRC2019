@@ -5,10 +5,10 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
-public class Arm
+public class P51SingleControler
 {
 
-	TalonSRX arm;
+	TalonSRX controller;
 	int canID; 
 	
 	int currentSetPos;
@@ -23,10 +23,8 @@ public class Arm
 
 	//all possible detectable and recoverable errors with the speed controller
 	boolean errorSpeed, errorTemp, errorCurrent, errorMinSoftLimit, errorMaxSoftLimit, errorMinHardLimit, errorMaxHardLimit;
-	this.errorSpeed = this.errorTemp = this.errorCurrent = this.errorMinSoftLimit = this.errorMaxSoftLimit = this.errorMinHardLimit = this.errorMaxHardLimit = false;
 	// all possible detectable warnings with the speed conteollers
 	boolean warningSpeed, warningTemp, warningCurrent, warningMinSoftLimit, warningMaxSoftLimit, warningMinHardLimit, warningMaxHardLimit;
-	this.warningSpeed = this.warningTem p= this.warningCurrent = this.warningMinSoftLimit = this.warningMaxSoftLimit = this.warningMinHardLimit = this.warningMaxHardLimit = false;
 
 	enum FeedbackDevice{
 		CTRE_MagEncoder_Absolute;
@@ -34,13 +32,15 @@ public class Arm
 	boolean failed = false;
 
 	
-	public Arm()
+	public P51SingleControler()
 	{
 		this.canID = 32;
-		this.arm = new TalonSRX(this.canID);
+		this.controller = new TalonSRX(this.canID);
+		//set the PID variables
 		this.config_kD=1;
 		this.config_kI=.0002;
 		this.config_kP=7;
+		
 		this.minSoftLimit=-500;
 		this.maxSoftLimit=900;
 		this.FeedbackDevice=CTRE_MagEncoder_Absolute;
@@ -48,21 +48,24 @@ public class Arm
 		this.currentSetPos = -150;
 
 		this.homePos = this.currentSetPos;
-		
-		this.arm.setInverted(false);
-		this.arm.setSensorPhase(true);
+	
+		this.controller.setInverted(false);
+		this.controller.setSensorPhase(true);
+		//start all of our errors and warnings as false
+		this.errorSpeed = this.errorTemp = this.errorCurrent = this.errorMinSoftLimit = this.errorMaxSoftLimit = this.errorMinHardLimit = this.errorMaxHardLimit =
+		this.warningSpeed = this.warningTemp = this.warningCurrent = this.warningMinSoftLimit = this.warningMaxSoftLimit = this.warningMinHardLimit = this.warningMaxHardLimit = false;
 
-		this.arm.configForwardSoftLimitThreshold(this.maxSoftLimit, 10);
-		this.arm.configForwardSoftLimitEnable(true, 10);
+		this.controller.configForwardSoftLimitThreshold(this.maxSoftLimit, 10);
+		this.controller.configForwardSoftLimitEnable(true, 10);
 
-		this.arm.configReverseSoftLimitThreshold(this.minSoftLimit, 10);
-		this.arm.configReverseSoftLimitEnable(true, 10);
+		this.controller.configReverseSoftLimitThreshold(this.minSoftLimit, 10);
+		this.controller.configReverseSoftLimitEnable(true, 10);
 
-		this.arm.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 0, 10);
+		this.controller.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 0, 10);
 
-		this.arm.config_kP(0, this.config_kP, 10);
-		this.arm.config_kI(0, this.config_kI, 10);
-		this.arm.config_kD(0, this.config_kD, 10);
+		this.controller.config_kP(0, this.config_kP, 10);
+		this.controller.config_kI(0, this.config_kI, 10);
+		this.controller.config_kD(0, this.config_kD, 10);
 	}
 
 	
@@ -84,35 +87,47 @@ public class Arm
 
 	public boolean control(double input)
 	{
-		if (this.failed == true || this.arm.getSelectedSensorPosition(0) < this.minSoftLimit-this.minSoftLimit*this.softLimitRange || this.arm.getSelectedSensorPosition(0) > this.maxSoftLimit+this.errorMaxSoftLimit*this.softLimitRange)
+		if (this.failed == true || this.controller.getSelectedSensorPosition(0) < this.minSoftLimit-this.minSoftLimit*this.softLimitRange || this.controller.getSelectedSensorPosition(0) > this.maxSoftLimit+this.errorMaxSoftLimit*this.softLimitRange)
 		{
-			this.arm.configForwardSoftLimitEnable(false, 10);
-			this.arm.configReverseSoftLimitEnable(false, 10);
-			this.arm.set(ControlMode.PercentOutput, input);
+			this.controller.configForwardSoftLimitEnable(false, 10);
+			this.controller.configReverseSoftLimitEnable(false, 10);
+			this.controller.set(ControlMode.PercentOutput, input);
 			this.failed = true;
-			this.arm.setNeutralMode(NeutralMode.Brake);
+			this.controller.setNeutralMode(NeutralMode.Brake);
 			return true;
 		} else
 		{
-			this.arm.configForwardSoftLimitEnable(true, 10);
-			this.arm.configReverseSoftLimitEnable(true, 10);
-			this.arm.set(ControlMode.Position, this.currentSetPos);
-			this.arm.setNeutralMode(NeutralMode.Coast);
+			this.controller.configForwardSoftLimitEnable(true, 10);
+			this.controller.configReverseSoftLimitEnable(true, 10);
+			this.controller.set(ControlMode.Position, this.currentSetPos);
+			this.controller.setNeutralMode(NeutralMode.Coast);
 
 			return false;
 		}
 	}
 
-	public int getPos()
-	{
+	public int getSetPos() {
 		return this.currentSetPos;
+	}
+	public int getPos(){
+		//todo retun the real position
 	}
 	
 	public void home()
 	{
-		this.arm.setSelectedSensorPosition(this.homePos, 0, 10);
+		this.controller.setSelectedSensorPosition(this.homePos, 0, 10);
 		this.failed = false;
 		this.currentSetPos = this.homePos;
+	}
+
+	public double getSpeed() {
+		//todo return the real speed
+	}
+	public double getVoltage() {
+		//todo return the Voltage
+	}
+	public double getCurrent(){
+		//todo return the Current
 	}
 
 }
