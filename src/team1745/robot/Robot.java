@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package org.usfirst.frc.team1745.robot;
+package src.team1745.robot;
 
 import java.io.File;
 import java.io.FileWriter;
