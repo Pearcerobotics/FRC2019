@@ -164,7 +164,7 @@ public class Robot extends TimedRobot
 
 		if (lEncoder.isFinished())
 		{
-			intake.outtake(.5);
+			intake.outtake(.5); // output at the cube at half speed
 		}
 	}
 
@@ -189,12 +189,13 @@ public class Robot extends TimedRobot
 		controlArm();
 		controlLift();
 		controlIntake();
+		//when button 3 is pressed turn on the winch
 		winch.controlWinch(sJoy.getRawAxis(3));
 		if (sJoy.getRawButton(1))
 		{
 			deployTime = winch.deploy();
 		}
-		
+		//turn off the winch at 2 seconds
 		if(System.currentTimeMillis() - deployTime > 2000)
 		{
 			winch.off();
@@ -217,25 +218,26 @@ public class Robot extends TimedRobot
 
 	public void controlArm()
 	{
+		//move the arm set point with the left stick if its beyond 20% moved
 		if (Math.abs(sJoy.getRawAxis(5)) > .2)
 		{
 			arm.setPos((int) (arm.getPos() - sJoy.getRawAxis(5) * 22));
 		}
-
+		//move the arm to the pick up cube position
 		if (sJoy.getRawButton(3))
 		{
 			arm.setPos(-150);
 		} else if (sJoy.getRawButton(4))
 		{
-			arm.setPos(500);
+			arm.setPos(500); // move the arm to the switch scoring position
 		} else if (sJoy.getRawButton(2))
 		{
-			arm.setPos(600);
+			arm.setPos(600); // move the arm to the scale scoring position
 		}
 		
 		if(sJoy.getRawButton(8))
 		{
-			arm.home();
+			arm.home(); //re home the arm
 		}
 
 		boolean armFailed = arm.control(-sJoy.getRawAxis(5));
@@ -247,20 +249,21 @@ public class Robot extends TimedRobot
 
 	public void controlLift()
 	{
+		//move the Lift  set point with the left stick if its beyond 20% moved
 		if (Math.abs(sJoy.getRawAxis(1)) > .2)
 		{
 			lift.setPos((int) (lift.getPos() - sJoy.getRawAxis(1) * 350));
 		}
-
+		
 		if (sJoy.getRawButton(3))
 		{
-			lift.setPos(500);
+			lift.setPos(500);//move the lift to the pick up cube position
 		} else if (sJoy.getRawButton(4))
 		{
-			lift.setPos(500);
-		} else if (sJoy.getRawButton(2))
+			lift.setPos(500);// move the lift  to the switch scoring position
+		} else if (sJoy.getRawButton(2)) 
 		{
-			lift.setPos(18000);
+			lift.setPos(18000); // move the lift to the scale scoring position
 		}
 
 		lift.control();
@@ -270,13 +273,13 @@ public class Robot extends TimedRobot
 	{
 		if (sJoy.getRawButton(5) || lJoy.getRawButton(5))
 		{
-			intake.intake();
+			intake.intake(); //intake 
 		} else if (sJoy.getRawAxis(3) > .05)
 		{
-			intake.outtake(sJoy.getRawAxis(3));
+			intake.outtake(sJoy.getRawAxis(3)); //spit out at a controlled speed
 		} else
 		{
-			intake.rest();
+			intake.rest(); // turn the intake off
 		}
 	}
 
