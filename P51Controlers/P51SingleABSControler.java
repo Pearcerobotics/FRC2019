@@ -113,7 +113,6 @@ public class P51SingleABSControler
 		//? maybe voltage limit it while its in the error state?
 		//tallons have a auto current limiting?
 		this.controllerLimited = true;
-<<<<<<< HEAD:P51Controlers/P51SingleABSControler.java
 
 	}
 	
@@ -136,8 +135,6 @@ public class P51SingleABSControler
 	 */
 	public void togglePIDControl()
 	{
-=======
->>>>>>> ef0788c45406855b4e5d2ae238247e33dbfcda5c:P51Controlers/P51SingleABSControler.java
 
 	}
 	
