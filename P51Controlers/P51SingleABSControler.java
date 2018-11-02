@@ -94,9 +94,13 @@ public class P51SingleABSControler
 		this.controller.config_kI(0, this.config_kI, 10);
 		this.controller.config_kD(0, this.config_kD, 10);
 	}
+<<<<<<< HEAD:P51Controlers/P51SingleABSControler.java
 	/**
 	 * 🎵 we can check if we want to 🎵
 	 */
+=======
+	
+>>>>>>> ef0788c45406855b4e5d2ae238247e33dbfcda5c:P51Controlers/P51SingleABSControler.java
 	private void checkSafety()
 	{
 		//todo add checks for all safety items, set safety flags, and call limiting if maxes are hit
@@ -109,6 +113,7 @@ public class P51SingleABSControler
 		//? maybe voltage limit it while its in the error state?
 		//tallons have a auto current limiting?
 		this.controllerLimited = true;
+<<<<<<< HEAD:P51Controlers/P51SingleABSControler.java
 
 	}
 	
@@ -131,8 +136,24 @@ public class P51SingleABSControler
 	 */
 	public void togglePIDControl()
 	{
+=======
+>>>>>>> ef0788c45406855b4e5d2ae238247e33dbfcda5c:P51Controlers/P51SingleABSControler.java
 
 	}
+	
+	/**
+	 * once a warning or error is over we need to switch the controller back to normal operation
+	 */
+	private void unLimitcontroller(){
+
+		this.controllerLimited = false;
+	}
+	
+	public void toggleManualOverride()
+	{
+
+	}
+
 
 	public void setPos(int pos)
 	{
