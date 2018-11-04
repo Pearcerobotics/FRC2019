@@ -1,0 +1,19 @@
+FRC 1745 Wiring Diagram
+
+Device,Can_ID,MotorType,PDU_ID,Breaker,ColorCode
+LDrive1,,MiniCIM,1,40,B/Bk
+LDrive2,,MiniCIM,2,40,B/Wt
+LDrive3,,MiniCIM,3,40,B/Br
+RDrive1,,MiniCIM,4,40,R/Bk
+RDrive2,,MiniCIM,5,40,R/Wt
+RDrive3,,MiniCIM,6,40,R/Br
+,,,7,,,,
+,,,8,,
+,,,9,,
+,,,10,,
+,,,11,,
+,,,12,,
+,,,13,,
+,,,14,,
+,,,15,,
+,,,16,,
